@@ -60,9 +60,22 @@ export const addNewPosts = createAsyncThunk('posts/addNewPosts', async (initialP
 })
 
 export const updatePost = createAsyncThunk('posts/updatePost', async (initialPosts) => {
+    const { id } = initialPosts
     try {
         const response = await axios.put(`${POSTS_URL}/${id}`, initialPosts)
         return response.data
+    } catch(err) {
+        // return err.message
+        return initialPosts // only for testing redux
+    }
+})
+
+export const deletePost = createAsyncThunk('posts/deletePost', async (initialPosts) => {
+    const { id } = initialPosts
+    try {
+        const response = await axios.delete(`${POSTS_URL}/${id}`)
+        if (response?.status === 200) return initialPosts
+        return `${response?.status}: ${response?.statusText}`
     } catch(err) {
         return err.message
     }
@@ -127,6 +140,40 @@ const postsSlice = createSlice({
                 .addCase(fetchPosts.rejected, (state, action) => {
                     state.status = 'failed'
                     state.error = action.error.message
+                })
+                .addCase(addNewPosts.fulfilled, (state, action) => {
+                    action.payload.userId = Number(action.payload.userId)
+                    action.payload.date = new Date().toISOString()
+                    action.payload.reactions = {
+                        thumbsUp: 0,
+                        wow: 0,
+                        heart: 0,
+                        rocket: 0,
+                        coffee: 0,
+                    }
+                    console.log(action.payload)
+                    state.posts.push(action.payload)
+                })
+                .addCase(updatePost.fulfilled, (state, action) => {
+                    if (!action.payload?.id) {
+                        console.log('Update could not complete')
+                        console.log(action.payload)
+                        return;
+                    }
+                    const { id } = action.payload
+                    action.payload.date = new Date().toISOString()
+                    const posts = state.posts.filter(post => post.id !== id)
+                    state.posts = [...posts, action.payload]
+                })
+                .addCase(deletePost.fulfilled, (state, action) => {
+                    if (!action.payload?.id) {
+                        console.log('Delete could not complete')
+                        console.log(action.payload)
+                        return;
+                    }
+                    const { id } = action.payload
+                    const posts = state.posts.filter(post => post.id !== id)
+                    state.posts = posts
                 })
         }
     },
