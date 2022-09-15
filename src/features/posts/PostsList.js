@@ -1,11 +1,12 @@
-import { useSelector,useDispatch } from "react-redux";
-import { selectAllPosts,getPostsError,getPostsStatus,fetchPosts } from "./postsSlice";
-import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectAllPosts, getPostsError, getPostsStatus, fetchPosts } from "./postsSlice";
+import { useEffect, useState } from "react";
 
 import PostExcerpt from "./PostExcerpt";
 
 const PostsList = () => {
     const dispatch = useDispatch()
+    // const [content, setContent] = useState('')
 
     const posts = useSelector(selectAllPosts)
     const postStatus = useSelector(getPostsStatus)
@@ -17,7 +18,7 @@ const PostsList = () => {
         }
     }, [postStatus, dispatch])
 
-    let content
+    let content;
     if (postStatus === 'loading') {
         content = <p>'Loading...'</p>
     } else if (postStatus === 'succeeded') {

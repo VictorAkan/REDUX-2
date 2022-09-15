@@ -1,40 +1,53 @@
 import { useState } from "react";
-import { useDispatch,useSelector } from "react-redux";
-// import { nanoid } from "@reduxjs/toolkit";
+import { useDispatch, useSelector } from "react-redux";
+import { selectPostById,updatePost } from "./postsSlice";
+import { useParams, useNavigate } from "react-router-dom";
 
-import { postAdded,addNewPosts } from "./postsSlice";
 import { selectAllUsers } from "../users/usersSlice";
 
-const AddPostForm = () => {
-    const [title, setTitle] = useState('')
-    const [content, setContent] = useState('')
-    const [userId, setUserId] = useState('')
-    const [addRequestStatus, setAddRequestStatus] = useState('idle')
+const EditPostForm = () => {
+    const { postId } = useParams()
+    const navigate = useNavigate() 
 
+    const post = useSelector((state) => selectPostById(state, Number(postId)))
     const users = useSelector(selectAllUsers)
+
+    const [title, setTitle] = useState(post?.title)
+    const [content, setContent] = useState(post?.body)
+    const [userId, setUserId] = useState(post?.userId)
+    const [RequestStatus, setRequestStatus] = useState('idle')
+
     const dispatch = useDispatch()
+
+    if (!post) {
+        return (
+            <section>
+                <h2>Post not found</h2>
+            </section>
+        )
+    }
 
     const onTitleChanged = (e) => setTitle(e.target.value)
     const onContentChanged = (e) => setContent(e.target.value)
     const onAuthorChanged = (e) => setUserId(e.target.value)
 
+    const canSave = [title, content, userId].every(Boolean) && requestStatus === 'idle';
     const onSavedPostClicked = () => {
         if (canSave) {
             try {
-                setAddRequestStatus('pending')
-                dispatch(addNewPosts({ title, body:content, userId })).unwrap()
+                setRequestStatus('pending')
+                dispatch(updatePost({ title, body:content, userId })).unwrap()
                 setTitle('')
                 setContent('')
                 setUserId('')
+                navigate(`/post/${postId}`)
             } catch(err) {
                 console.error('failed to load request', err)
             } finally {
-                setAddRequestStatus('idle')
+                setRequestStatus('idle')
             }
         }
     }
-
-    const canSave = [title, content, userId].every(Boolean) && addRequestStatus === 'idle';
 
     const usersOptions = users.map(user => (
         <option key={user.id} value={user.id}>
@@ -42,14 +55,10 @@ const AddPostForm = () => {
         </option>
     ))
 
-    const handleSubmit = (e) => {
-        e.preventDefault()
-    }
-
     return (
         <section className="flex justify-center">
             <div>
-                <h2 className="capitalize font-bold text-4xl mt-3">Add a new post</h2>
+                <h2 className="capitalize font-bold text-4xl mt-3">Edit Post</h2>
                 <form onSubmit={handleSubmit} className="bg-gray-700 w-[30rem] mt-4 p-3 drop-shadow-md rounded-md">
                     <div className="mt-3">
                         <label className="text-white text-left text-xl" htmlFor="postTitle">Post Title:</label>
@@ -66,7 +75,7 @@ const AddPostForm = () => {
                     <div className="mt-6">
                         <label className="text-white text-xl" htmlFor="postAuthor">Author:</label>
                         <div>
-                            <select className="bg-gray-900 text-white focus:outline-none focus:ring focus:ring-gray-200 p-2" id="postAuthor" value={userId} onChange={onAuthorChanged}>
+                            <select className="bg-gray-900 text-white focus:outline-none focus:ring focus:ring-gray-200 p-2" id="postAuthor" defaultValue={userId} onChange={onAuthorChanged}>
                                 <option value=""></option>
                                 {usersOptions}
                             </select>
@@ -98,4 +107,4 @@ const AddPostForm = () => {
     )
 }
 
-export default AddPostForm
+export default EditPostForm
