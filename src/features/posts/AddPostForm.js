@@ -53,12 +53,12 @@ const AddPostForm = () => {
         <section className="flex justify-center">
             <div>
                 <h2 className="capitalize font-bold text-4xl mt-3">Add a new post</h2>
-                <form onSubmit={handleSubmit} className="bg-gray-700 w-[30rem] mt-4 p-3 drop-shadow-md rounded-md">
+                <form onSubmit={handleSubmit} className="bg-sky-700 w-[30rem] mt-4 p-3 drop-shadow-md rounded-md">
                     <div className="mt-3">
                         <label className="text-white text-left text-xl" htmlFor="postTitle">Post Title:</label>
                         <div>
                             <input
-                                className="bg-gray-900 text-white focus:outline-none focus:ring focus:ring-gray-200 p-2"
+                                className="bg-sky-900 text-white focus:outline-none focus:ring focus:ring-sky-200 p-2"
                                 type="text"
                                 name="postTitle"
                                 value={title}
@@ -69,7 +69,7 @@ const AddPostForm = () => {
                     <div className="mt-6">
                         <label className="text-white text-xl" htmlFor="postAuthor">Author:</label>
                         <div>
-                            <select className="bg-gray-900 text-white focus:outline-none focus:ring focus:ring-gray-200 p-2" id="postAuthor" value={userId} onChange={onAuthorChanged}>
+                            <select className="bg-sky-900 text-white focus:outline-none focus:ring focus:ring-sky-200 p-2" id="postAuthor" value={userId} onChange={onAuthorChanged}>
                                 <option value=""></option>
                                 {usersOptions}
                             </select>
@@ -79,7 +79,7 @@ const AddPostForm = () => {
                         <label className="text-white text-xl" htmlFor="postContent">Content:</label>
                         <div>
                             <textarea
-                                className="bg-gray-900 w-96 text-white focus:outline-none focus:ring focus:ring-gray-200 p-3"
+                                className="bg-sky-900 w-96 text-white focus:outline-none focus:ring focus:ring-sky-200 p-3"
                                 name="postContent"
                                 value={content}
                                 onChange={onContentChanged}
@@ -88,7 +88,7 @@ const AddPostForm = () => {
                     </div>
                     <div>
                         <button
-                            className="mt-3 bg-gray-500 text-white p-2 hover:bg-gray-400 rounded-md"
+                            className="mt-3 bg-red-500 text-white p-2 hover:bg-red-400 rounded-md"
                             onClick={onSavedPostClicked}
                             disabled={!canSave}
                         >

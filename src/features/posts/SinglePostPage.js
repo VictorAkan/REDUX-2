@@ -22,16 +22,18 @@ const SinglePostPage = () => {
     }
 
     return (
-        <article className="rounded-lg drop-shadow-md p-3 bg-white w-96 mt-5">
-            <h3 className="font-bold text-xl">{post.title}</h3>
-            <p>{post.body.substring(0, 100)}</p>
-            <p className="postCredit">
-                <Link to={`/post/edit/${post.id}`}>Edit Post</Link>
-                <PostAuthor userId={post.userId} />
-                <TimeAgo timestamp={post.date} />
-            </p>
-            <ReactButtons post={post} />
-        </article>
+        <div className="flex justify-center">
+            <article className="rounded-lg drop-shadow-md p-3 bg-white w-96 mt-10">
+                <h3 className="font-bold text-xl">{post.title}</h3>
+                <p>{post.body.substring(0, 100)}</p>
+                <p className="postCredit">
+                    <Link to={`post/edit/${post.id}`} className="mr-3 text-white hover:bg-green-400 bg-green-500 rounded-md p-1">Edit Post</Link>
+                    <PostAuthor userId={post.userId} />
+                    <TimeAgo timestamp={post.date} />
+                </p>
+                <ReactButtons post={post} />
+            </article>
+        </div>
     )
 }
 
