@@ -52,7 +52,7 @@ const EditPostForm = () => {
     const onDeletePostClicked = () => {
         try {
             setRequestStatus('pending')
-            dispatch(updatePost({ id: post.id })).unwrap()
+            dispatch(updatePost({ id: post.id, title, body: content, userId, reactions: post.reactions })).unwrap()
             setTitle('')
             setContent('')
             setUserId('')
@@ -111,9 +111,10 @@ const EditPostForm = () => {
                             />
                         </div>
                     </div>
-                    <div>
+                    <div className="flex space-x-32">
+                        <div>
                         <button
-                            className="mt-3 bg-gray-500 text-white p-2 hover:bg-gray-400 rounded-md"
+                            className="mt-3 bg-green-500 text-white p-2 hover:bg-green-400 rounded-md"
                             onClick={onSavedPostClicked}
                             disabled={!canSave}
                         >
@@ -122,12 +123,13 @@ const EditPostForm = () => {
                     </div>
                     <div>
                         <button
-                            className="mt-3 bg-gray-500 text-white p-2 hover:bg-gray-400 rounded-md"
+                            className="mt-3 bg-red-500 text-white p-2 hover:bg-red-400 rounded-md"
                             onClick={onDeletePostClicked}
                             // disabled={!canSave}
                         >
                             Delete Post
                         </button>
+                    </div>
                     </div>
                 </form>
             </div>

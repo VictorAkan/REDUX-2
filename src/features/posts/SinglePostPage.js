@@ -27,7 +27,7 @@ const SinglePostPage = () => {
                 <h3 className="font-bold text-xl">{post.title}</h3>
                 <p>{post.body.substring(0, 100)}</p>
                 <p className="postCredit">
-                    <Link to={`post/edit/${post.id}`} className="mr-3 text-white hover:bg-green-400 bg-green-500 rounded-md p-1">Edit Post</Link>
+                    <Link to={`/post/edit/${post.id}`} className="mr-3 text-white hover:bg-green-400 bg-green-500 rounded-md p-1">Edit Post</Link>
                     <PostAuthor userId={post.userId} />
                     <TimeAgo timestamp={post.date} />
                 </p>
