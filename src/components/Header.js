@@ -1,10 +1,10 @@
 import { Link } from "react-router-dom";
-import { useSelector,useDispatch } from "react-redux";
-import { increaseCount,getCounter } from "../features/posts/postsSlice";
+// import { useSelector,useDispatch } from "react-redux";
+// import { increaseCount,getCounter } from "../features/posts/postsSlice";
 
 const Header = () => {
-    const dispatch = useDispatch()
-    const count = useSelector(getCounter)
+    // const dispatch = useDispatch()
+    // const count = useSelector(getCounter)
     return (
         <header className="flex space-x-[60rem] bg-sky-400 p-5 items-center">
             <h1 className="font-bold text-3xl">Redux Blog</h1>
@@ -15,9 +15,9 @@ const Header = () => {
                         <li><Link to="post">Post</Link></li>
                         <li><Link to="user">Users</Link></li>
                     </ul>
-                    <button onClick={() => dispatch(increaseCount())}>
+                    {/* <button onClick={() => dispatch(increaseCount())}>
                         {count}
-                    </button>
+                    </button> */}
                 </div>
             </nav>
         </header>
